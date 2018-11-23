@@ -1,0 +1,20 @@
+{
+    "users":{
+        "abtUser":{
+            "org":"ABT",
+            "password": "abtPass"
+        },
+        "brtUser":{
+            "org":"BRT",
+            "password": "brtPass"
+        },
+        "busUser":{
+            "org":"Bus",
+            "password": "busPass"
+        },
+        "bankUser":{
+            "org":"Bank",
+            "password": "bankPass"
+        }
+    }
+}
