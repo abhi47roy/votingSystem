@@ -1,0 +1,114 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+services:
+
+  orderer.nec.com:
+    container_name: orderer.nec.com
+    image: hyperledger/fabric-orderer:$IMAGE_TAG
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=INFO
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+    - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+    - ../crypto-config/ordererOrganizations/nec.com/orderers/orderer.nec.com/msp:/var/hyperledger/orderer/msp
+    - ../crypto-config/ordererOrganizations/nec.com/orderers/orderer.nec.com/tls/:/var/hyperledger/orderer/tls
+    - orderer.nec.com:/var/hyperledger/production/orderer
+    ports:
+      - 7050:7050
+
+  peer0.abt.nec.com:
+    container_name: peer0.abt.nec.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.abt.nec.com
+      - CORE_PEER_ADDRESS=peer0.abt.nec.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.abt.nec.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.abt.nec.com:7051
+      - CORE_PEER_LOCALMSPID=AbtMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/abt.nec.com/peers/peer0.abt.nec.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/abt.nec.com/peers/peer0.abt.nec.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.abt.nec.com:/var/hyperledger/production
+    ports:
+      - 7051:7051
+      - 7053:7053
+
+  peer0.bank.nec.com:
+    container_name: peer0.bank.nec.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.bank.nec.com
+      - CORE_PEER_ADDRESS=peer0.bank.nec.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.bank.nec.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.bank.nec.com:7051
+      - CORE_PEER_LOCALMSPID=BankMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/bank.nec.com/peers/peer0.bank.nec.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/bank.nec.com/peers/peer0.bank.nec.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.bank.nec.com:/var/hyperledger/production
+
+    ports:
+      - 8051:7051
+      - 8053:7053
+
+  peer0.brt.nec.com:
+    container_name: peer0.brt.nec.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.brt.nec.com
+      - CORE_PEER_ADDRESS=peer0.brt.nec.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.brt.nec.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.brt.nec.com:7051
+      - CORE_PEER_LOCALMSPID=BrtMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/brt.nec.com/peers/peer0.brt.nec.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/brt.nec.com/peers/peer0.brt.nec.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.brt.nec.com:/var/hyperledger/production
+    ports:
+      - 9051:7051
+      - 9053:7053
+
+  peer0.bus.nec.com:
+    container_name: peer0.bus.nec.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.bus.nec.com
+      - CORE_PEER_ADDRESS=peer0.bus.nec.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.bus.nec.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.bus.nec.com:7051
+      - CORE_PEER_LOCALMSPID=BusMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/bus.nec.com/peers/peer0.bus.nec.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/bus.nec.com/peers/peer0.bus.nec.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.bus.nec.com:/var/hyperledger/production
+    ports:
+      - 10051:7051
+      - 10053:7053
