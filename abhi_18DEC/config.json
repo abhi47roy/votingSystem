@@ -1,0 +1,10 @@
+﻿{
+    "connectionString": "mongodb://localhost:27017/necblockchain",
+    "apiUrl": "http://localhost:3040/api",
+    "secret": "REPLACE THIS WITH YOUR OWN SECRET, IT CAN BE ANY STRING",
+    "UnconfirmedUser":0,
+    "chaincodeUrl":"http://localhost:7050/",
+    "chaincode_id":"abtcc3",
+    "channel_name":"commonchannel",
+    "keyStorePath": "/Users/abhiramkumar/PersonalAB/NECBlockchain/keyStore"
+}
