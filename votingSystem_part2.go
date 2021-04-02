@@ -9,7 +9,7 @@ import (
 
 func (s *VoteSystem) getPollQuestion(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
-	fmt.Println("Get the poll Question")
+	fmt.Println("Get all poll question")
 	uniqueKey := s.getPackageHash(args[1])
 	voteQuestionAsBytes, _ := APIstub.GetState(uniqueKey)
 
