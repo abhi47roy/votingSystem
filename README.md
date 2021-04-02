@@ -1,3 +1,3 @@
 # VotingSystem
 
-This is a Smart contract for the Online Voting Application in the golang for Hyperledger fabric. 
+This is a Smart contract for Online Voting Application written in golang for Hyperledger fabric. 
